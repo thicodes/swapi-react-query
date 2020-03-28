@@ -10,7 +10,6 @@ function Logo() {
       width="634.104"
       height="271.366"
       viewBox="0 0 634.10401 271.366"
-      enable-background="new 0 0 693.615 419.375"
       style={{ height: 100 }}
     >
       <g id="Layer_2" transform="translate(-29.908,-73.916003)">
