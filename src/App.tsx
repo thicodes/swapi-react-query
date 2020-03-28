@@ -9,8 +9,14 @@ const GlobalStyle = createGlobalStyle`
     font-family: Arial;
   }
 `;
+
 function App() {
+  return (
+    <>
+      <Characters />
       <GlobalStyle />
+    </>
+  );
 }
 
 export default App;
