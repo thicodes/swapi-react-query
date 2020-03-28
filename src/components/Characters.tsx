@@ -1,60 +1,79 @@
 import React from 'react';
 import styled from 'styled-components';
-// @ts-ignore
 import InfiniteScroll from 'react-infinite-scroller';
 import fetch from '../fetch';
 import Card from './Card';
+import Starships from './Starships';
+import Spinner from './Spinner';
+import { getIdFromUrl } from '../getIdFromUrl';
 
 const Grid = styled.main`
   display: grid;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 16px;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  grid-gap: 1rem;
+  grid-gap: 2rem;
 `;
 
 type State = {
   page: number;
   error: boolean;
   hasMore: boolean;
-  isLoading: boolean;
+  isLoadingNext: boolean;
   data: Array<any>;
 };
 
 function Characters() {
   const [query, setQuery] = React.useState<State>({
-    page: 1,
+    page: 0,
     error: false,
+    isLoadingNext: false,
     hasMore: true,
-    isLoading: false,
     data: [],
   });
 
   const fetchCharacters = async (page: number) => {
+    setQuery({
+      ...query,
+      isLoadingNext: true,
+    });
     const data = await fetch(`https://swapi.co/api/people/?page=${page}`);
     setQuery({
       page,
       error: false,
-      hasMore: false,
-      isLoading: true,
-      data: [...data.results],
+      isLoadingNext: false,
+      hasMore: !!data.next,
+      data: [...query.data, ...data.results],
     });
   };
 
-  React.useEffect(() => {
-    fetchCharacters(1);
-  }, []);
+  const loadMore = () => {
+    if (query.isLoadingNext) {
+      return;
+    }
+    fetchCharacters(++query.page);
+  };
 
-  const infiniteScrollerLoader = <div>Loading...</div>;
+  const infiniteScrollerLoader = (
+    <div key={0}>
+      <Spinner />
+    </div>
+  );
 
   return (
-    <Grid>
-      {query.data.map((person: any) => {
-        const personId = person.url
-          .split('/')
-          .filter(Boolean)
-          .pop();
-        return <Card key={personId}>{person.url}</Card>;
-      })}
-    </Grid>
+    <InfiniteScroll pageStart={0} loadMore={loadMore} hasMore={query.hasMore} loader={infiniteScrollerLoader} useWindow>
+      <Grid>
+        {query.data.map((person: any) => (
+          <Card key={getIdFromUrl(person.url)}>
+            <div>Name: {person.name}</div>
+            <div>
+              Starship: <Starships urls={person.starships} />
+            </div>
+          </Card>
+        ))}
+      </Grid>
+    </InfiniteScroll>
   );
 }
 
