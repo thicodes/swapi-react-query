@@ -38,3 +38,5 @@ cypress/videos
 cypress/screenshots
 
 !debug.keystore
+
+.now
