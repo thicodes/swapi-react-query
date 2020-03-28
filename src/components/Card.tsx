@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const CardStyled = styled.div`
-  background: #282c50;
-  border-radius: 22px;
-  color: #fff;
+  border-radius: 7px;
+  color: #4a5b9a;
   padding: 25px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
 `;
 
 function Card(props: any) {
