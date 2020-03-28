@@ -5,7 +5,8 @@ import Characters from './components/Characters';
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
-    background: #4a5b9a;
+    padding: 32px 16px;
+    background: #fafafa;
     font-family: Arial;
   }
 `;
