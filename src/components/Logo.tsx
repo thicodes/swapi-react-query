@@ -4,6 +4,7 @@ function Logo() {
   return (
     <svg
       id="Layer_1"
+      data-testid="Logo"
       x="0px"
       y="0px"
       width="634.104"
