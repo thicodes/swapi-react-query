@@ -5,6 +5,7 @@ import fetch from '../fetch';
 import Card from './Card';
 import Starships from './Starships';
 import Spinner from './Spinner';
+import Text from './Text';
 import { getIdFromUrl } from '../getIdFromUrl';
 
 const Grid = styled.main`
@@ -66,10 +67,12 @@ function Characters() {
       <Grid>
         {query.data.map((person: any) => (
           <Card key={getIdFromUrl(person.url)}>
-            <div>Name: {person.name}</div>
-            <div>
-              Starship: <Starships urls={person.starships} />
-            </div>
+            <Text color="#ffe720">{person.name}</Text>
+            {person.starships.length > 0 && (
+              <Text>
+                Starships: <Starships urls={person.starships} />
+              </Text>
+            )}
           </Card>
         ))}
       </Grid>
